@@ -1,11 +1,18 @@
 import React, { useState } from 'react'
 
-function Player({ name, symbol }) {
+function Player({ initialName, symbol }) {
     const [isEditing, setIsEditing] = useState(false)
+    const [name, setName] = useState(initialName)
 
     const handleClick = () => {
         setIsEditing((prevState) => !prevState)
     }
+
+    const handleChange = (e) => {
+        setName(e.target.value)
+    }
+
+    console.log(name)
 
     // const saveName =  ()
 
@@ -16,7 +23,7 @@ function Player({ name, symbol }) {
             <span className="player">
                 {isEditing
                     ?
-                    <input className="player-name" type='text' value={name}></input>
+                    <input className="player-name" type='text' value={name} onChange={handleChange}></input>
                     :
                     <span className="player-name">{name}</span>
                 }
