@@ -12,12 +12,6 @@ function Player({ initialName, symbol }) {
         setName(e.target.value)
     }
 
-    console.log(name)
-
-    // const saveName =  ()
-
-    console.log(isEditing)
-
     return (
         <li>
             <span className="player">
