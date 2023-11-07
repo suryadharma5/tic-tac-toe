@@ -32,7 +32,7 @@ function App() {
           <Player initialName="Player 1" symbol="X" isActive={isSelected === 'X'} />
           <Player initialName="Player 2" symbol="O" isActive={isSelected === 'O'} />
         </ol>
-        <GameBoard onSelectedButton={handleSelect} activePlayer={isSelected} />
+        <GameBoard onSelectedButton={handleSelect} turns={gameTurns} />
         <Log />
       </div>
     </main>

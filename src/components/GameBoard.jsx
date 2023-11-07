@@ -4,7 +4,15 @@ const initialGameBoard = [
     [null, null, null]
 ]
 
-function GameBoard({ onSelectedButton }) {
+function GameBoard({ onSelectedButton, turns }) {
+    let gameBoard = initialGameBoard
+
+    for (const turn of turns) {
+        const { square, player } = turn
+        const { row, col } = square
+
+        gameBoard[row][col] = player
+    }
     // const [gameBoard, setGameBoard] = useState(initialGameBoard)
 
     // const handleClick = (rowIndex, colIndex) => {
@@ -24,7 +32,7 @@ function GameBoard({ onSelectedButton }) {
                     <ol>
                         {row.map((symbol, colIndex) =>
                             <li key={colIndex}>
-                                <button onClick={onSelectedButton}>
+                                <button onClick={() => onSelectedButton(rowIndex, colIndex)}>
                                     {symbol}
                                 </button>
                             </li>
