@@ -32,7 +32,7 @@ function GameBoard({ onSelectedButton, turns }) {
                     <ol>
                         {row.map((symbol, colIndex) =>
                             <li key={colIndex}>
-                                <button onClick={() => onSelectedButton(rowIndex, colIndex)}>
+                                <button onClick={() => onSelectedButton(rowIndex, colIndex)} disabled={symbol !== null}>
                                     {symbol}
                                 </button>
                             </li>
