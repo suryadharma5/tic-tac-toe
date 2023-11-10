@@ -23,6 +23,10 @@ const deriveActivePlayer = (gameTurns) => {
 
 function App() {
   const [gameTurns, setGameTurns] = useState([])
+  const [players, setPlayers] = useState({
+    'X': 'Player 1',
+    'O': 'Player 2'
+  })
 
   const activePlayer = deriveActivePlayer(gameTurns)
 
@@ -42,10 +46,9 @@ function App() {
     const firstSquareSymbol = gameBoard[combination[0].row][combination[0].column]
     const secondSquareSymbol = gameBoard[combination[1].row][combination[1].column]
     const thirdSquareSymbol = gameBoard[combination[2].row][combination[2].column]
-    console.log(firstSquareSymbol)
 
     if (firstSquareSymbol && firstSquareSymbol === secondSquareSymbol && firstSquareSymbol === thirdSquareSymbol) {
-      winner = firstSquareSymbol
+      winner = players[firstSquareSymbol]
     }
   }
 
@@ -71,12 +74,21 @@ function App() {
     setGameTurns([])
   }
 
+  const handleSavePlayerName = (symbol, newName) => {
+    setPlayers((prevState) => {
+      return {
+        ...prevState,
+        [symbol]: newName
+      }
+    })
+  }
+
   return (
     <main>
       <div id="game-container">
         <ol id="players" className="highlight-player">
-          <Player initialName="Player 1" symbol="X" isActive={activePlayer === 'X'} />
-          <Player initialName="Player 2" symbol="O" isActive={activePlayer === 'O'} />
+          <Player initialName="Player 1" symbol="X" isActive={activePlayer === 'X'} onChangeName={handleSavePlayerName} />
+          <Player initialName="Player 2" symbol="O" isActive={activePlayer === 'O'} onChangeName={handleSavePlayerName} />
         </ol>
         {(winner || hasDraw) && <GameOver winner={winner} handleClick={handleRematch} />}
         <GameBoard onSelectedButton={handleSelect} board={gameBoard} />
