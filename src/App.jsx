@@ -3,6 +3,7 @@ import GameBoard from "./components/GameBoard"
 import Player from "./components/Player"
 import Log from "./components/Log"
 import { WINNING_COMBINATIONS } from "./winning-combination"
+import GameOver from "./components/GameOver"
 
 const initialGameBoard = [
   [null, null, null],
@@ -25,7 +26,8 @@ function App() {
 
   const activePlayer = deriveActivePlayer(gameTurns)
 
-  let gameBoard = initialGameBoard
+  // copy agar kita ga bergantung pada initial array, jadi kita buat deep copynya
+  let gameBoard = [...initialGameBoard.map(array => [...array])]
 
   for (const turn of gameTurns) {
     const { square, player } = turn
@@ -47,6 +49,8 @@ function App() {
     }
   }
 
+  const hasDraw = gameTurns.length === 9 && !winner
+
   const handleSelect = (rowIndex, colIndex) => {
     setGameTurns((prevTurns) => {
       let currentPlayer = deriveActivePlayer(prevTurns)
@@ -63,6 +67,10 @@ function App() {
     })
   }
 
+  const handleRematch = () => {
+    setGameTurns([])
+  }
+
   return (
     <main>
       <div id="game-container">
@@ -70,7 +78,7 @@ function App() {
           <Player initialName="Player 1" symbol="X" isActive={activePlayer === 'X'} />
           <Player initialName="Player 2" symbol="O" isActive={activePlayer === 'O'} />
         </ol>
-        {winner && <p>{winner} is the winner</p>}
+        {(winner || hasDraw) && <GameOver winner={winner} handleClick={handleRematch} />}
         <GameBoard onSelectedButton={handleSelect} board={gameBoard} />
       </div>
       <Log gameTurns={gameTurns} />
